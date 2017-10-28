@@ -55,14 +55,12 @@ class TrackSort(object):
         for trk in reversed(self.trackers):
             d = trk.get_state()[0]
             if((trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits)):
-              ret.append(np.concatenate((d,[trk.id+1])).reshape(1,-1)) # +1 as MOT benchmark requires positive
+                ret.append(trk)
             i -= 1
             #remove dead tracklet
             if(trk.time_since_update > self.max_age):
               self.trackers.pop(i)
-        if(len(ret)>0):
-          return np.concatenate(ret)
-        return np.empty((0,5))
+        return ret
 
 
 def parse_args():
@@ -124,13 +122,14 @@ if __name__ == '__main__':
                 cycle_time = time.time() - start_time
                 total_time += cycle_time
 
-                for d in trackers:
-                    print('%d,%d,%.2f,%.2f,%.2f,%.2f,1,-1,-1,-1' % (frame, d[4], d[0], d[1], d[2] - d[0], d[3] - d[1]),
+                for trk in trackers:
+                    d = trk.get_state()[0]
+                    print('%d,%d,%.2f,%.2f,%.2f,%.2f,1,-1,-1,-1' % (frame, trk.id, d[0], d[1], d[2] - d[0], d[3] - d[1]),
                           file=out_file)
                     if (display):
                         d = d.astype(np.int32)
                         ax1.add_patch(patches.Rectangle((d[0], d[1]), d[2] - d[0], d[3] - d[1], fill=False, lw=3,
-                                                        ec=colours[d[4] % 32, :]))
+                                                        ec=colours[trk.id % 32, :]))
                         ax1.set_adjustable('box-forced')
 
                 if (display):
