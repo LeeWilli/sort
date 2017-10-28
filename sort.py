@@ -14,6 +14,9 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Mark track with message
+    Copyright (C) 2017  Willi
 """
 from __future__ import print_function
 
@@ -130,6 +133,12 @@ class KalmanBoxTracker(object):
     Returns the current bounding box estimate.
     """
     return convert_x_to_bbox(self.kf.x)
+
+
+class ObjectTracker(KalmanBoxTracker):
+  def __init__(self, bbox, mess):
+    super().__init__(bbox)
+    self.mess = mess
 
 def associate_detections_to_trackers(detections,trackers,iou_threshold = 0.3):
   """
