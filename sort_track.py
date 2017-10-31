@@ -62,6 +62,8 @@ class TrackSort(object):
               self.trackers.pop(i)
         return ret
 
+def set_tracker(self, trackers):
+    self.trackers = trackers
 
 def parse_args():
     """Parse input arguments."""
