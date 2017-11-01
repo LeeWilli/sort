@@ -139,6 +139,7 @@ class ObjectTracker(KalmanBoxTracker):
   def __init__(self, bbox, mess):
     super().__init__(bbox)
     self.mess = mess
+    self.code = []
 
 def associate_detections_to_trackers(detections,trackers,iou_threshold = 0.3):
   """
