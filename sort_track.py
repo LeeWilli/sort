@@ -3,8 +3,7 @@
     Copyright (C) Willi
 
 """
-from sort import *
-
+from sort.sort import *
 
 class TrackSort(object):
     def __init__(self, max_age=1, min_hits=3):
@@ -72,6 +71,7 @@ def parse_args():
                         action='store_true')
     args = parser.parse_args()
     return args
+
 
 
 if __name__ == '__main__':
